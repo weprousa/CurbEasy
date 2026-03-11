@@ -6,7 +6,7 @@ interface LoginViewProps {
 }
 
 const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
-  const [username, setUsername] = useState('Admin');
+  const [username, setUsername] = useState('Guest');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,10 +18,10 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
 
     // Simulate login with specific credentials
     setTimeout(() => {
-      if (username === 'Admin' && password === 'admin1010') {
+      if (username === 'Guest' && password === 'guest1010') {
         onLogin();
       } else {
-        setError('Invalid credentials. Hint: Admin / admin1010');
+        setError('Invalid credentials. Hint: Guest / guest1010');
       }
       setLoading(false);
     }, 1200);
@@ -120,7 +120,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
                       required
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      placeholder="Admin"
+                      placeholder="Guest"
                       className="w-full bg-white/10 border border-white/20 rounded-2xl pl-12 pr-4 py-4 text-white font-bold placeholder:text-white/30 focus:ring-4 focus:ring-white/20 focus:border-white/50 outline-none transition-all backdrop-blur-sm"
                     />
                   </div>
