@@ -1,5 +1,5 @@
 {
-  "name": "CurbEasy",
+  "name": "ParkSmart",
   "description": "A comprehensive NYC parking assistant that helps you navigate street rules, scan signs, and ask AI about complex regulations.",
   "requestFramePermissions": [
     "camera",

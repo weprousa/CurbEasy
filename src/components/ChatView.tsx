@@ -50,7 +50,7 @@ const ChatView: React.FC<ChatViewProps> = ({ initialPrompt, history, setHistory,
         <button onClick={onBack} className={`mr-4 ${theme === 'dark' ? 'text-slate-400' : 'text-slate-600'}`}>
           <span className="material-symbols-outlined">arrow_back</span>
         </button>
-        <h2 className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>CurbEasy Assistant</h2>
+        <h2 className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-slate-800'}`}>ParkSmart Assistant</h2>
       </div>
 
       <div className="flex-grow overflow-y-auto p-4 space-y-4 no-scrollbar">

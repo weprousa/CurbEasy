@@ -1,0 +1,21 @@
+{
+  "name": "ParkSmart NYC",
+  "short_name": "ParkSmart",
+  "description": "Smart NYC Parking Assistant",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "https://picsum.photos/seed/parksmart192/192/192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://picsum.photos/seed/parksmart512/512/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

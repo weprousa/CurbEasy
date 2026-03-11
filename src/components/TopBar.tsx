@@ -1,6 +1,5 @@
-
 import React, { useState, useRef } from 'react';
-import { Theme, UserProfile, LatLng } from '../types';
+import { Theme, UserProfile } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface TopBarProps {
@@ -8,7 +7,6 @@ interface TopBarProps {
   borough: string;
   onAddressChange: (val: string) => void;
   onBoroughChange: (val: string) => void;
-  onLocationUpdate?: (location: LatLng) => void;
   theme: Theme;
   onThemeChange: (theme: Theme) => void;
   userProfile: UserProfile;
@@ -21,7 +19,6 @@ const TopBar: React.FC<TopBarProps> = ({
   borough, 
   onAddressChange, 
   onBoroughChange,
-  onLocationUpdate,
   theme,
   onThemeChange,
   userProfile,
@@ -94,37 +91,47 @@ const TopBar: React.FC<TopBarProps> = ({
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        if (onLocationUpdate) {
-          onLocationUpdate({ lat: latitude, lng: longitude });
-        }
         try {
           // Using OpenStreetMap's Nominatim API for free reverse geocoding
+          // Added email for better API compliance and reliability
           const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1&email=wepros.info@gmail.com`
           );
           const data = await response.json();
           
           if (data && data.address) {
             const addr = data.address;
-            const street = addr.road || addr.pedestrian || addr.suburb || "Unknown Street";
-            const houseNumber = addr.house_number ? `${addr.house_number} ` : "";
-            const fullStreet = `${houseNumber}${street}`;
             
-            // Map borough
-            const cityDistrict = addr.city_district || addr.suburb || "";
-            let detectedBorough = "Manhattan"; // Default
+            // More robust street name detection
+            const street = addr.road || addr.pedestrian || addr.path || addr.cycleway || addr.suburb || addr.neighbourhood || "Unknown Street";
+            const houseNumber = addr.house_number || "";
+            const fullStreet = houseNumber ? `${houseNumber} ${street}` : street;
             
-            if (cityDistrict.toLowerCase().includes("brooklyn")) detectedBorough = "Brooklyn";
-            else if (cityDistrict.toLowerCase().includes("queens")) detectedBorough = "Queens";
-            else if (cityDistrict.toLowerCase().includes("bronx")) detectedBorough = "Bronx";
-            else if (cityDistrict.toLowerCase().includes("staten island")) detectedBorough = "Staten Island";
-            else if (addr.county && addr.county.toLowerCase().includes("kings")) detectedBorough = "Brooklyn";
-            else if (addr.county && addr.county.toLowerCase().includes("queens")) detectedBorough = "Queens";
-            else if (addr.county && addr.county.toLowerCase().includes("bronx")) detectedBorough = "Bronx";
-            else if (addr.county && addr.county.toLowerCase().includes("richmond")) detectedBorough = "Staten Island";
+            // Map borough more accurately using multiple fields
+            const city = addr.city || "";
+            const county = addr.county || "";
+            const suburb = addr.suburb || "";
+            const neighbourhood = addr.neighbourhood || "";
+            const locationInfo = `${city} ${county} ${suburb} ${neighbourhood}`.toLowerCase();
+            
+            let detectedBorough = "Manhattan"; // Default fallback
+            
+            if (locationInfo.includes("brooklyn") || locationInfo.includes("kings")) {
+              detectedBorough = "Brooklyn";
+            } else if (locationInfo.includes("queens")) {
+              detectedBorough = "Queens";
+            } else if (locationInfo.includes("bronx")) {
+              detectedBorough = "Bronx";
+            } else if (locationInfo.includes("staten island") || locationInfo.includes("richmond")) {
+              detectedBorough = "Staten Island";
+            } else if (locationInfo.includes("manhattan") || locationInfo.includes("new york county")) {
+              detectedBorough = "Manhattan";
+            }
 
             handleBoroughChange(detectedBorough);
             handleAddressChange(fullStreet);
+          } else {
+            alert("Could not find an address for this location.");
           }
         } catch (error) {
           console.error("Error reverse geocoding:", error);
@@ -136,9 +143,13 @@ const TopBar: React.FC<TopBarProps> = ({
       (error) => {
         console.error("Geolocation error:", error);
         setIsLocating(false);
-        alert("Unable to retrieve your location. Please check your permissions.");
+        let errorMsg = "Unable to retrieve your location.";
+        if (error.code === 1) errorMsg = "Location access denied. Please enable permissions.";
+        else if (error.code === 2) errorMsg = "Location unavailable.";
+        else if (error.code === 3) errorMsg = "Location request timed out.";
+        alert(errorMsg);
       },
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   };
 
@@ -152,7 +163,7 @@ const TopBar: React.FC<TopBarProps> = ({
         <div className="flex items-center justify-between">
           <div className={`flex items-center gap-2 ${theme === 'dark' ? 'text-blue-400' : 'text-primary'}`}>
             <span className="material-symbols-outlined text-[20px]">location_on</span>
-            <h1 className="text-sm font-bold tracking-tight uppercase">CurbEasy</h1>
+            <h1 className="text-sm font-bold tracking-tight uppercase">ParkSmart</h1>
           </div>
           
           <div className="relative">

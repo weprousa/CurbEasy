@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import { scanSignRules } from '../services/geminiService';
 import { Theme } from '../types';
