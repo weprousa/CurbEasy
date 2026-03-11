@@ -66,13 +66,13 @@ const HomeView: React.FC<HomeViewProps> = ({ onStartChat, onStartScan, locationC
       id: 'featured_congestion',
       title: 'New Congestion Pricing Rules',
       prompt: 'What are the latest updates on NYC congestion pricing zones and fees for 2026?',
-      image: 'https://picsum.photos/seed/nyc-traffic/800/400'
+      image: 'https://media.cnn.com/api/v1/images/stellar/prod/ap25006539785633.jpg?q=w_1160,c_fill/f_webp'
     },
     {
       id: 'featured_summer',
       title: 'Summer Streets 2026 Schedule',
       prompt: 'What is the schedule and route for NYC Summer Streets 2026?',
-      image: 'https://picsum.photos/seed/nyc-park/800/400'
+      image: 'https://upload.wikimedia.org/wikipedia/commons/f/f5/1855_Colton_Map_of_New_York_City%2C_Manhattan%2C_Brooklyn%2C_Hoboken_%28first_edition%29_-_Geographicus_-_NewYorkCity-colton-1855.jpg'
     }
   ];
 
