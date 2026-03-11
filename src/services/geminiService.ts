@@ -29,7 +29,7 @@ ${location ? `User Location: ${location}.` : ''}
 Question: ${prompt}`;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.5-flash',
       contents: [{ role: 'user', parts: [{ text: fullPrompt }] }],
       config: {
         systemInstruction: "You are an expert NYC parking and street rules assistant. Provide clear, concise answers to questions about NYC parking regulations, alternate side parking (ASP), parking tickets, and traffic. Always warn users to verify with physical signs. Use the provided location context and CURRENT DATE/TIME to give accurate answers. IMPORTANT: DO NOT use any hashtags (#) in your response. Use bold text or bullet points for structure instead.",
@@ -69,7 +69,7 @@ export const scanSignRules = async (imageBase64: string) => {
     };
     
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.5-flash',
       contents: [{ role: 'user', parts: [imagePart, textPart] }],
       config: {
         systemInstruction: "You are an expert NYC parking sign analyzer. Explain the rules clearly. DO NOT use any hashtags (#) in your response. Use bold text for emphasis instead.",
