@@ -11,7 +11,8 @@ import AlertsView from './components/AlertsView';
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
-    return localStorage.getItem('isLoggedIn') === 'true';
+    localStorage.clear();
+    return false;
   });
   const [theme, setTheme] = useState<Theme>(() => {
     return (localStorage.getItem('app_theme') as Theme) || 'colorful';
