@@ -18,10 +18,10 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
 
     // Simulate login with specific credentials
     setTimeout(() => {
-      if (username === 'Guest' && password === 'guest1010') {
+      if (username === 'Guest' && password === 'guest0001') {
         onLogin();
       } else {
-        setError('Invalid credentials. Hint: Guest / guest1010');
+        setError('Invalid credentials. Hint: Guest / guest0001');
       }
       setLoading(false);
     }, 1200);
