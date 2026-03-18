@@ -21,7 +21,7 @@ const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
       if (username === 'Guest' && password === 'guest0001') {
         onLogin();
       } else {
-        setError('Invalid credentials. Hint: Guest / guest0001');
+        setError('Invalid credentials. Hint: Guest / Ask Mr Anwar...');
       }
       setLoading(false);
     }, 1200);
